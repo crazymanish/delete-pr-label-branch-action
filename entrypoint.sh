@@ -24,7 +24,7 @@ delete_pull_request_label_branch() {
       "${URI}/repos/${GITHUB_REPOSITORY}/issues?state=closed&labels=${LABEL_NAME}"
     )
 
-  PULL_REQUEST_URLS=$("$LABEL_PULL_REQUESTS" | jq '[.[] | .pull_request.url]')
+  PULL_REQUEST_URLS=$(echo "$LABEL_PULL_REQUESTS" | jq '[.[] | .pull_request.url]')
   echo "$PULL_REQUEST_URLS"
 
   # for PULL_REQUEST_URL in $PULL_REQUEST_URLS; do
