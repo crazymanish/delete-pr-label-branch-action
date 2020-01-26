@@ -34,7 +34,7 @@ delete_pull_request_label_branch() {
       curl -XGET -fsSL \
         -H "${AUTH_HEADER}" \
         -H "${API_HEADER}" \
-        "${PULL_REQUEST_URL}"
+        "https://api.github.com/repos/crazymanish/SwiftCurrency/pulls/13"
     )
     ISSUE_URL=$(echo "$PULL_REQUEST_DETAILS" | jq '.issue_url')
     REPO_URL=$(echo "$PULL_REQUEST_DETAILS" | jq '.head.repo.owner.repos_url')
