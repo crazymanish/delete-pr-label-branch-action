@@ -17,15 +17,27 @@ AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 
 delete_pull_request_label_branch() {
   echo "List Labeling pull request"
-
-  PULL_REQUESTS=$(
+  LABEL_PULL_REQUESTS=$(
     curl -XGET -fsSL \
       -H "${AUTH_HEADER}" \
       -H "${API_HEADER}" \
       "${URI}/repos/${GITHUB_REPOSITORY}/issues?state=closed&labels=${LABEL_NAME}"
     )
 
-  echo "$PULL_REQUESTS"
+  PULL_REQUEST_URLS=$(echo "$LABEL_PULL_REQUESTS" | jq '[.[] | .pull_request.url]')
+
+  for PULL_REQUEST_URL in $PULL_REQUEST_URLS; do
+    echo "Fetching pull request details"
+    PULL_REQUEST_DETAILS=$(
+      curl -XGET -fsSL \
+        -H "${AUTH_HEADER}" \
+        -H "${API_HEADER}" \
+        "${PULL_REQUEST_URL}"
+    )
+
+    echo "$PULL_REQUEST_DETAILS"
+
+  done
 }
 
 delete_pull_request_label_branch
