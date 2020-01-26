@@ -24,19 +24,19 @@ delete_pull_request_label_branch() {
       "${URI}/repos/${GITHUB_REPOSITORY}/issues?state=closed&labels=${LABEL_NAME}"
     )
 
-  PULL_REQUEST_URLS=$(echo "$LABEL_PULL_REQUESTS" | jq '[.[] | .pull_request.url]')
+  PULL_REQUEST_URLS=$(echo "$LABEL_PULL_REQUESTS" | jq '.[] | .pull_request.url')
   echo "$PULL_REQUEST_URLS"
 
   for PULL_REQUEST_URL in $PULL_REQUEST_URLS; do
-    echo "Fetching pull request details: $(echo ${PULL_REQUEST_URL})"
-    PULL_REQUEST_DETAILS=$(
-      curl -XGET -fsSL \
-        -H "${AUTH_HEADER}" \
-        -H "${API_HEADER}" \
-        "$(echo ${PULL_REQUEST_URL})"
-    )
-
-    echo "$PULL_REQUEST_DETAILS"
+    echo "Fetching pull request details: ${PULL_REQUEST_URL}"
+    # PULL_REQUEST_DETAILS=$(
+    #   curl -XGET -fsSL \
+    #     -H "${AUTH_HEADER}" \
+    #     -H "${API_HEADER}" \
+    #     "$(echo ${PULL_REQUEST_URL})"
+    # )
+    #
+    # echo "$PULL_REQUEST_DETAILS"
 
   done
 }
