@@ -25,6 +25,7 @@ delete_pull_request_label_branch() {
     )
 
   PULL_REQUEST_URLS=$("$LABEL_PULL_REQUESTS" | jq '[.[] | .pull_request.url]')
+  echo "$PULL_REQUEST_URLS"
 
   # for PULL_REQUEST_URL in $PULL_REQUEST_URLS; do
   #   echo "Fetching pull request details"
@@ -35,9 +36,9 @@ delete_pull_request_label_branch() {
   #       "${PULL_REQUEST_URL}"
   #   )
 
-    echo "$PULL_REQUEST_URLS"
+    #echo "$PULL_REQUEST_DETAILS"
 
-  done
+  # done
 }
 
 delete_pull_request_label_branch
