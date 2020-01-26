@@ -27,7 +27,8 @@ delete_pull_request_label_branch() {
   PULL_REQUEST_URLS=$(echo "$LABEL_PULL_REQUESTS" | jq '.[] | .pull_request.url')
   echo "$PULL_REQUEST_URLS"
 
-  for PULL_REQUEST_URL in $PULL_REQUEST_URLS; do
+  for URL in $PULL_REQUEST_URLS; do
+    PULL_REQUEST_URL="$(echo "$URL")"
     echo "Fetching pull request details: ${PULL_REQUEST_URL}"
     PULL_REQUEST_DETAILS=$(
       curl -XGET -fsSL \
@@ -35,7 +36,12 @@ delete_pull_request_label_branch() {
         -H "${API_HEADER}" \
         "${PULL_REQUEST_URL}"
     )
-    echo "$PULL_REQUEST_DETAILS"
+    ISSUE_URL=$(echo "$PULL_REQUEST_DETAILS" | jq '.issue_url')
+    REPO_URL=$(echo "$PULL_REQUEST_DETAILS" | jq '.head.repo.owner.repos_url')
+    HEAD_REF=$(echo "$PULL_REQUEST_DETAILS" | jq '.head.ref')
+    echo "$ISSUE_URL"
+    echo "$REPO_URL"
+    echo "$HEAD_REF"
   done
 }
 
